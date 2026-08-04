@@ -1,0 +1,79 @@
+esphome:
+  name: desk-light
+  friendly_name: Desk Light
+
+esp32:
+  board: esp32dev
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Desk Light Fallback"
+
+captive_portal:
+
+web_server:
+  port: 80
+  version: 3
+
+output:
+  - platform: ledc
+    pin: GPIO19
+    id: strip_pwm
+    frequency: 20000Hz
+
+light:
+  - platform: monochromatic
+    name: "Desk Strip"
+    id: desk_strip
+    output: strip_pwm
+    restore_mode: ALWAYS_OFF
+    default_transition_length: 1000ms
+    on_turn_on:
+      - if:
+          condition:
+            switch.is_on: auto_off_enabled
+          then:
+            - script.execute: auto_off_timer
+    on_turn_off:
+      - script.stop: auto_off_timer
+
+switch:
+  - platform: template
+    name: "Auto-off"
+    id: auto_off_enabled
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    on_turn_off:
+      - script.stop: auto_off_timer
+
+script:
+  - id: auto_off_timer
+    mode: restart
+    then:
+      - delay: 30min
+      - light.turn_off: desk_strip
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO18
+      inverted: true
+    name: "Wave Sensor"
+    id: wave_sensor
+    filters:
+      - delayed_on: 50ms
+      - delayed_off: 250ms
+    on_press:
+      - light.toggle: desk_strip
