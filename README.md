@@ -9,7 +9,7 @@ Everything lives in `desk_light.yaml` and runs on the device:
 
 1. Boot, connect to Wi-Fi, come up on the Home Assistant API.
 2. Watch the IR sensor on GPIO18.
-3. On a wave, toggle the strip on GPIO19 with a 500 ms fade.
+3. On a wave, toggle the strip on GPIO19 with a 1000 (adjsutable) ms fade.
 4. Stay awake and connected — the device is mains-powered and always on.
 
 The strip is also a normal ESPHome `light` entity, so Home Assistant (or anything talking
