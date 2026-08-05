@@ -73,9 +73,8 @@ esphome logs desk_light.yaml
 
 Everything tunable is inline in `desk_light.yaml`:
 
-- `output.frequency` (1000Hz) — PWM frequency for the strip. Raise it if you see flicker
-  on camera; some drivers don't like going too high.
-- `default_transition_length` (500ms) — fade time on toggle.
+- `output.frequency` (20kHz) — PWM frequency for the strip. Raised so PSU buzz it out of audible range.
+- `default_transition_length` (1000ms) — fade time on toggle.
 - `restore_mode` (ALWAYS_OFF) — state after boot. `RESTORE_DEFAULT_OFF` will bring back
   whatever it was before the reboot instead.
 - `filters.delayed_on` / `delayed_off` on the wave sensor — debounce and retrigger
