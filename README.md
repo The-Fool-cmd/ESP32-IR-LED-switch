@@ -23,7 +23,7 @@ regardless of what it was doing before.
 
 - Any ESP32 devkit (`board: esp32dev`).
 - IR proximity / break-beam sensor → **GPIO18**, digital output, active-high.
-- LED strip via a MOSFET or driver module → **GPIO19**, PWM at 1 kHz.
+- LED strip via a MOSFET or driver module → **GPIO19**, PWM at 20 kHz.
 
 The sensor is debounced in firmware: it has to read high for 50 ms before it counts as a
 wave (`delayed_on`), and low for 250 ms before it can trigger again (`delayed_off`). That
